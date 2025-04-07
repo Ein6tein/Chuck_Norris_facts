@@ -29,7 +29,8 @@ import lv.chernishenko.chucknorrisfacts.viewmodel.MainScreenState.Loading
 
 @Composable
 fun StartScreen(
-    viewModel: ChuckNorrisViewModel = hiltViewModel()
+    viewModel: ChuckNorrisViewModel = hiltViewModel(),
+    onItemClick: (String) -> Unit,
 ) {
     val localFacts = viewModel.pager.collectAsLazyPagingItems()
     val state = viewModel.uiState.collectAsState()
@@ -70,7 +71,7 @@ fun StartScreen(
                         localFacts[index]?.id ?: index
                     }) { index ->
                         localFacts[index]?.let { fact ->
-                            ChuckNorrisFactListItem(fact)
+                            ChuckNorrisFactListItem(fact, onItemClick)
                         }
                     }
                     // Add a spacer at the end of the list for FAB

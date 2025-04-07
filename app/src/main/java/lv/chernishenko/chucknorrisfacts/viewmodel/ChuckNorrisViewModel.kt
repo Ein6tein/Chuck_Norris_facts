@@ -7,10 +7,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import lv.chernishenko.chucknorrisfacts.model.ChuckNorrisFact
 import lv.chernishenko.chucknorrisfacts.repository.ChuckNorrisRepository
+import lv.chernishenko.chucknorrisfacts.usecase.ChuckNorrisGetSingleFactUseCase
 import lv.chernishenko.chucknorrisfacts.usecase.ChuckNorrisLocalFactsUseCase
 import lv.chernishenko.chucknorrisfacts.usecase.ChuckNorrisSaveFactUseCase
 import javax.inject.Inject
@@ -19,11 +19,15 @@ import javax.inject.Inject
 class ChuckNorrisViewModel @Inject constructor(
     private val repository: ChuckNorrisRepository,
     private val localFactsUseCase: ChuckNorrisLocalFactsUseCase,
-    private val saveFactUseCase: ChuckNorrisSaveFactUseCase
+    private val saveFactUseCase: ChuckNorrisSaveFactUseCase,
+    private val getSingleFactUseCase: ChuckNorrisGetSingleFactUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MainScreenState>(MainScreenState.Initial)
     val uiState = _uiState.asStateFlow()
+
+    private val _detailsState = MutableStateFlow<ChuckNorrisFact?>(null)
+    val detailsState = _detailsState.asStateFlow()
 
     val pager = localFactsUseCase().cachedIn(viewModelScope)
 
@@ -40,6 +44,13 @@ class ChuckNorrisViewModel @Inject constructor(
             }.onFailure { error ->
                 _uiState.value = MainScreenState.Error(error.message ?: "Unknown error")
             }
+        }
+    }
+
+    fun getFactById(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = getSingleFactUseCase(id)
+            _detailsState.value = result
         }
     }
 }

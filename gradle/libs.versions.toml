@@ -12,6 +12,7 @@ composeBom = "2025.03.01"
 hiltVersion = "2.51.1"
 hiltComposeVersion = "1.2.0"
 pagingComposeVersion = "3.3.6"
+navigationComposeVersion = "2.8.9"
 
 # region Network
 okhttpVersion = "4.12.0"
@@ -34,6 +35,7 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingComposeVersion" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationComposeVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }

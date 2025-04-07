@@ -15,4 +15,7 @@ interface ChuckNorrisFactsDao {
 
     @Query("SELECT * FROM facts ORDER BY timestamp DESC")
     fun localFacts() : PagingSource<Int, ChuckNorrisFact>
+
+    @Query("SELECT * FROM facts WHERE id = :id")
+    fun getFact(id: String): ChuckNorrisFact?
 }

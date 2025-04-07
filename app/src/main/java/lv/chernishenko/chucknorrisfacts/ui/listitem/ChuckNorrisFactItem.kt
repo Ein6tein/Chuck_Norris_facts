@@ -24,14 +24,14 @@ import lv.chernishenko.chucknorrisfacts.model.ChuckNorrisFact
 @Composable
 fun ChuckNorrisFactListItem(
     fact: ChuckNorrisFact,
-    onClick: () -> Unit = {}
+    onClick: (String) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(all = 8.dp)
             .background(color = MaterialTheme.colorScheme.surfaceContainer, shape = ShapeDefaults.Medium)
-            .clickable { onClick() }
+            .clickable { onClick(fact.id) }
     ) {
         Row(
             modifier = Modifier
