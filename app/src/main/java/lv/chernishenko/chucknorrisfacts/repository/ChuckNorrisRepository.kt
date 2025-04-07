@@ -41,7 +41,8 @@ class ChuckNorrisRepository @Inject constructor(
                     id = jsonObject.get("id").asString,
                     url = jsonObject.get("url")?.asString,
                     iconUrl = jsonObject.get("icon_url")?.asString,
-                    value = jsonObject.get("value").asString
+                    value = jsonObject.get("value").asString,
+                    timestamp = System.currentTimeMillis()
                 )
 
                 Result.success(fact)

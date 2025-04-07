@@ -13,6 +13,6 @@ interface ChuckNorrisFactsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFact(chuckNorrisFact: ChuckNorrisFact)
 
-    @Query("SELECT * FROM facts")
+    @Query("SELECT * FROM facts ORDER BY timestamp DESC")
     fun localFacts() : PagingSource<Int, ChuckNorrisFact>
 }

@@ -55,7 +55,10 @@ fun StartScreen(
             },
         ) { innerPadding ->
             if (localFacts.itemCount == 0) {
-                Box(modifier = Modifier.padding(innerPadding)) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                ) {
                     Text(
                         text = "No facts yet",
                         modifier = Modifier.align(Alignment.Center)
@@ -70,8 +73,9 @@ fun StartScreen(
                             ChuckNorrisFactListItem(fact)
                         }
                     }
+                    // Add a spacer at the end of the list for FAB
                     item {
-                        Spacer(modifier = Modifier.height(78.dp))
+                        Spacer(modifier = Modifier.height(80.dp))
                     }
                 }
             }

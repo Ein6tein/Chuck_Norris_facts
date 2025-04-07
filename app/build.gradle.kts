@@ -75,6 +75,7 @@ dependencies {
 
     // region Coil
     implementation(libs.coil)
+    implementation(libs.coil.network)
 
     // region Testing
     testImplementation(libs.junit)

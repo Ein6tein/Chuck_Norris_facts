@@ -67,6 +67,7 @@ fun ChuckNorrisFactListItemPreview() {
             url = "",
             iconUrl = "",
             value = "Chuck Norris can divide by zero.",
+            timestamp = 0L
         )
     )
 }

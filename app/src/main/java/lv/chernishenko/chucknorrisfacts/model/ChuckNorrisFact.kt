@@ -10,4 +10,5 @@ data class ChuckNorrisFact(
     @ColumnInfo(name = "url") val url: String?,
     @ColumnInfo(name = "icon_url") val iconUrl: String?,
     @ColumnInfo(name = "value") val value: String,
+    @ColumnInfo(name = "timestamp") val timestamp: Long
 )
