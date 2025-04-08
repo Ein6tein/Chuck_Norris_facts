@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import lv.chernishenko.chucknorrisfacts.ui.listitem.ChuckNorrisFactListItem
 import lv.chernishenko.chucknorrisfacts.ui.theme.ChuckNorrisFactsTheme
@@ -54,6 +55,7 @@ fun StartScreen(
                 val result = snackbarHostState.showSnackbar(
                     message = (state.value as Error).message,
                     actionLabel = "Retry",
+                    withDismissAction = true
                 )
                 when (result) {
                     SnackbarResult.ActionPerformed -> {
@@ -76,7 +78,7 @@ fun StartScreen(
                 FloatingActionButton(
                     onClick = {
                         if (state.value is Loading) return@FloatingActionButton
-                        viewModel.testError()
+                        viewModel.getRandomFact()
                     }
                 ) {
                     if (state.value is Loading) {
@@ -125,6 +127,8 @@ fun StartScreen(
     if (state.value is Success) {
         LaunchedEffect(key1 = Unit) {
             scope.launch {
+                // Necessary delay for scroll to work properly
+                delay(500)
                 listState.animateScrollToItem(0)
             }
         }

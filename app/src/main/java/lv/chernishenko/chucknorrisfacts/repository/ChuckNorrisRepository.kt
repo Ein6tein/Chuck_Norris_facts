@@ -9,6 +9,7 @@ import lv.chernishenko.chucknorrisfacts.model.ChuckNorrisFact
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @Module
@@ -23,32 +24,36 @@ class ChuckNorrisRepository @Inject constructor(
         .build()
 
     fun randomFact(): Result<ChuckNorrisFact> {
-        val request = Request.Builder()
-            .url("https://api.chucknorris.io/jokes/random")
-            .get()
-            .build()
+        try {
+            val request = Request.Builder()
+                .url("https://api.chucknorris.io/jokes/random")
+                .get()
+                .build()
 
-        val response = client.newCall(request).execute()
+            val response = client.newCall(request).execute()
 
-        return if (response.isSuccessful) {
-            val body = response.body?.string()
-            if (body == null) {
-                Result.failure(ChuckNorrisException("Response body is null or empty"))
+            return if (response.isSuccessful) {
+                val body = response.body?.string()
+                if (body == null) {
+                    Result.failure(ChuckNorrisException("Response body is null or empty"))
+                } else {
+                    val jsonObject = gson.fromJson(body, JsonObject::class.java)
+
+                    val fact = ChuckNorrisFact(
+                        id = jsonObject.get("id").asString,
+                        url = jsonObject.get("url")?.asString,
+                        iconUrl = jsonObject.get("icon_url")?.asString,
+                        value = jsonObject.get("value").asString,
+                        timestamp = System.currentTimeMillis()
+                    )
+
+                    Result.success(fact)
+                }
             } else {
-                val jsonObject = gson.fromJson(body, JsonObject::class.java)
-
-                val fact = ChuckNorrisFact(
-                    id = jsonObject.get("id").asString,
-                    url = jsonObject.get("url")?.asString,
-                    iconUrl = jsonObject.get("icon_url")?.asString,
-                    value = jsonObject.get("value").asString,
-                    timestamp = System.currentTimeMillis()
-                )
-
-                Result.success(fact)
+                Result.failure(ChuckNorrisException("Response code: ${response.code}, message: ${response.message}"))
             }
-        } else {
-            Result.failure(ChuckNorrisException("Response code: ${response.code}, message: ${response.message}"))
+        } catch (_: UnknownHostException) {
+            return Result.failure(ChuckNorrisException("Network error"))
         }
     }
 }

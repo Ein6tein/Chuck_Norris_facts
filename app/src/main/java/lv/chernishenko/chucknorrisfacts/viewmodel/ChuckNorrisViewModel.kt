@@ -53,10 +53,6 @@ class ChuckNorrisViewModel @Inject constructor(
             _detailsState.value = result
         }
     }
-
-    fun testError() {
-        _uiState.value = MainScreenState.Error("Test error")
-    }
 }
 
 open class MainScreenState {
