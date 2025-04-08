@@ -40,7 +40,7 @@ class ChuckNorrisViewModel @Inject constructor(
                     saveFactUseCase(fact)
                     localFactsUseCase()
                 }
-                _uiState.value = MainScreenState.Success(fact)
+                _uiState.value = MainScreenState.Success
             }.onFailure { error ->
                 _uiState.value = MainScreenState.Error(error.message ?: "Unknown error")
             }
@@ -53,11 +53,15 @@ class ChuckNorrisViewModel @Inject constructor(
             _detailsState.value = result
         }
     }
+
+    fun testError() {
+        _uiState.value = MainScreenState.Error("Test error")
+    }
 }
 
 open class MainScreenState {
     data object Initial : MainScreenState()
     data object Loading : MainScreenState()
-    data class Success(val fact: ChuckNorrisFact?) : MainScreenState()
+    data object Success : MainScreenState()
     data class Error(val message: String) : MainScreenState()
 }
